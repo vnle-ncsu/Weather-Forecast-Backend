@@ -1,6 +1,14 @@
 import requests
+import configparser
 
 class ForecastClient:
+    def __init__(self):
+        #load config
+        self.config = configparser.ConfigParser()
+        self.config.read('config.ini')
+        self.base_url = self.config['WEATHER_API']['base_url']
+        self.timezone = self.config['WEATHER_API']['timezone']
+
     def get_lat_long(self, zip_code: str):
         url = f"http://api.zippopotam.us/us/{zip_code}"
         response = requests.get(url)
@@ -16,7 +24,7 @@ class ForecastClient:
         #https://open-meteo.com/en/docs
         #under "Daily Parameter Definition", requesting max and min daily air temp, weather code
         #this is just for a single day but you can get api response of 7 day forecast as well
-        url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&start={date}&end={date}&timezone=America/Chicago"
+        url = f"{self.base_url}?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&days=7&timezone={self.timezone}"
         response = requests.get(url)
         if response.status_code == 200:
             weather_data = response.json()
