@@ -18,3 +18,5 @@ deactivate
 
 Example curl post req \
 curl -X POST http://127.0.0.1:5000/get_weather -H "Content-Type: application/json" -d '{"zipcode": "78758", "date": "2024-06-27"}'
+
+Orange Team
