@@ -5,7 +5,7 @@
 _Add ssh key & what not before this_
 
 ```bash
-git clone git@github.com:vnle-ncsu/Weather-Forecast-Backend.git\
+git clone git@github.com:vnle-ncsu/Weather-Forecast-Backend.git
 ```
 
 ## Python Version
@@ -49,16 +49,34 @@ To update requirements.txt
 python3 -m  pipreqs.pipreqs . --force
 ```
 
-## Example curl post req
+## Example cURL POST request
 
 ```bash
 curl -X POST http://127.0.0.1:5000/get_weather -H "Content-Type: application/json" -d '{"zipcode": "78758", "date": "2024-06-27"}'
 ```
 
-or\
+or
 
 ```bash
 curl -X POST http://127.0.0.1:5000/get_weather -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
+```
+
+For 7 day data
+
+```bash
+curl -X POST http://127.0.0.1:5000/get_7_day_forecast -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
+```
+
+For current weather
+
+```bash
+curl -X POST http://127.0.0.1:5000/get_current_forecast -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
+```
+
+Fore hourly forecast
+
+```bash
+curl -X POST http://127.0.0.1:5000/get_hourly_forecast -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
 ```
 
 For more information on forecast endpoints go to ./docs/forecast.txt
