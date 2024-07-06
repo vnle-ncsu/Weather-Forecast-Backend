@@ -1,4 +1,4 @@
-# Weather-Forecast-Backend
+# Weather-Forecast-Backend - Orange Team
 
 ## Clone Repo
 
@@ -53,6 +53,7 @@ python3 -m  pipreqs.pipreqs . --force
 
 ```bash
 curl -X POST http://127.0.0.1:5000/get_weather -H "Content-Type: application/json" -d '{"zipcode": "78758", "date": "2024-06-27"}'
+
 ```
 
 or
