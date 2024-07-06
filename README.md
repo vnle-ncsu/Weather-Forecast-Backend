@@ -73,7 +73,7 @@ For current weather
 curl -X POST http://127.0.0.1:5000/get_current_forecast -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
 ```
 
-Fore hourly forecast
+For hourly forecast
 
 ```bash
 curl -X POST http://127.0.0.1:5000/get_hourly_forecast -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
