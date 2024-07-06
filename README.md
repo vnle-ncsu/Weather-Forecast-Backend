@@ -1,6 +1,7 @@
 # Weather-Forecast-Backend
 
-##Clone Repo
+## Clone Repo
+
 _Add ssh key & what not before this_
 
 ```bash
@@ -11,7 +12,7 @@ git clone git@github.com:vnle-ncsu/Weather-Forecast-Backend.git\
 
 Running on Python 3.8.5
 
-## Packages you'll need \
+## Packages you'll need
 
 -Flask \
 -requests \
