@@ -1,10 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from forecast_service import ForecastService
 from models import ForecastRequestModel
 from datetime import datetime
 #from pydantic import ValidationError
 
 app = Flask(__name__)
+CORS(app)
 
 forecast_service = ForecastService()
 
@@ -34,13 +36,11 @@ def get_7_day_forecast():
     response = forecast_service.get_7_day_forecast(request_model)
     return jsonify(response.dict()), response.status_code
 
-@app.route('/get_current_forecast', methods=['POST'])
-def get_current_forecast():
-    data = request.get_json()
-
+@app.route('/forecast/<string:zipcode>', methods=['GET'])
+def get_current_forecast(zipcode):
+    data = { 'zipcode': zipcode }
     if 'date' not in data or not data['date']:
-        data['date'] = datetime.now().strftime('%Y-%m-%d')
-    
+        data['date'] = datetime.now().strftime('%Y-%m-%d') 
     request_model = ForecastRequestModel(**data) 
     #except ValidationError as e:
     #   return jsonify(e.errors()), 400
