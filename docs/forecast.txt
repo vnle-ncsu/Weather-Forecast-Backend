@@ -2,7 +2,7 @@
 
 ## Endpoints
 
-### 1. /get_weather
+### 1. /forecast/single-day
 - **Method**: POST
 - **Description**: Fetches the weather forecast for a given ZIP code and date. If no date is provided, the default is today's date.
 
@@ -34,7 +34,7 @@
   - `status_code` (integer): HTTP status code of the response.
   - `message` (string): Additional information about the response.
 
-### 2. /get_7_day_forecast
+### 2. /forecast/weekly
 - **Method**: POST
 - **Description**: Fetches the 7-day weather forecast for a given ZIP code.
 
@@ -73,17 +73,17 @@
   - `forecast` (list of objects *ForecastResponseModel*): A list containing the weather forecast for the next 7 days, each with the following fields:
     - `date`, `max_temp`, `min_temp`, `weather`
 
-### 3. /get_current_forecast
-- **Method**: POST
+### 3. /forecast/<string:zipcode>
+- **Method**: GET
 - **Description**: Fetches the current weather forecast for a given ZIP code.
 
 #### Data Input
-- **Content-Type**: application/json
-- **Request Body**:
-  {
-    "zipcode": "78758"
-  }
+- **Path Parameter**:
   - `zipcode` (string): The ZIP code for which the current weather forecast is requested.
+
+#### Example Request
+```bash
+curl -X GET http://127.0.0.1:5000/forecast/78758
 
 #### Return Values
 - **Content-Type**: application/json
@@ -101,7 +101,7 @@
   - `status_code` (integer): HTTP status code of the response.
   - `message` (string): Additional information about the response.
 
-### 4. /get_hourly_forecast
+### 4. /forecast/hourly
 - **Method**: POST
 - **Description**: Fetches the hourly weather forecast for a given ZIP code.
 

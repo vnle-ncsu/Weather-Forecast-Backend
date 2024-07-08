@@ -27,7 +27,8 @@ class ForecastClient:
         #under "Daily Parameter Definition", requesting max and min daily air temp, weather code
         #this is just for a single day but you can get api response of 7 day forecast as well
         #url = f"{self.base_url}?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&days=7&timezone={self.timezone}"
-        url = f"{self.base_url}?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&start={date}&end={date}&temperature_unit=fahrenheit&timezone={self.timezone}"
+        url = f"{self.base_url}?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&start_date={date}&end_date={date}&temperature_unit=fahrenheit&timezone={self.timezone}"
+        print(url)
         response = requests.get(url)
         if response.status_code == 200:
             weather_data = response.json()

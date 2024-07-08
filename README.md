@@ -52,32 +52,33 @@ python3 -m  pipreqs.pipreqs . --force
 ## Example cURL POST request
 
 ```bash
-curl -X POST http://127.0.0.1:5000/get_weather -H "Content-Type: application/json" -d '{"zipcode": "78758", "date": "2024-06-27"}'
+curl -X POST http://127.0.0.1:5000/forecast/single-day -H "Content-Type: application/json" -d '{"zipcode": "78758", "date": "2024-07-11"}'
 
 ```
 
 or
 
 ```bash
-curl -X POST http://127.0.0.1:5000/get_weather -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
+curl -X POST http://127.0.0.1:5000/forecast/single-day -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
 ```
 
 For 7 day data
 
 ```bash
-curl -X POST http://127.0.0.1:5000/get_7_day_forecast -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
+curl -X POST http://127.0.0.1:5000/forecast/weekly -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
 ```
 
-For current weather
+For current weather/
+route: /forecast/<zipcode>
 
 ```bash
-curl -X POST http://127.0.0.1:5000/get_current_forecast -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
+curl -X GET http://127.0.0.1:5000/forecast/78758
 ```
 
 For hourly forecast
 
 ```bash
-curl -X POST http://127.0.0.1:5000/get_hourly_forecast -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
+curl -X POST http://127.0.0.1:5000/forecast/hourly -H "Content-Type: application/json" -d '{"zipcode": "78758"}'
 ```
 
 For more information on forecast endpoints go to ./docs/forecast.txt
