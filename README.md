@@ -17,11 +17,13 @@ Running on Python 3.8.5
 -Flask \
 -requests \
 -pydantic
+-flask CORs
 
 ```bash
 pip install Flask
 pip install requests
 pip install pydantic
+pip install flask-cors
 ```
 
 ## Running in Virtual Environment
