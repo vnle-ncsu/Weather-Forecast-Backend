@@ -52,7 +52,7 @@ Install packages and dependencies
 make run
 ```
 
-### Run test
+### Run test (pre-req: backend has to be running)
 
 ```bash
 make test
