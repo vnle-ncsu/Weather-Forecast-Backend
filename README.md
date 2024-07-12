@@ -43,12 +43,6 @@ make clean
 ### Run the backend
 
 ```bash
-make install
-```
-
-Install packages and dependencies
-
-```bash
 make run
 ```
 
