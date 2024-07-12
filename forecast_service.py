@@ -1,5 +1,5 @@
 from forecast_client import ForecastClient
-from models import ForecastRequestModel, ForecastResponseModel, SevenDayForecastResponseModel, CurrentForecastModel, HourlyForecastModel
+from models import ForecastRequestModel, ForecastResponseModel, SevenDayForecastResponseModel, CurrentForecastModel, HourlyForecastModel, GeocodingResponseModel
 
 
 class ForecastService:
@@ -63,3 +63,9 @@ class ForecastService:
             forecast.append(CurrentForecastModel(temp=hour['temp'], weather=hour['weather'], time=hour['time'], status_code=200, message="Success"))
 
         return HourlyForecastModel(status_code=200, message="Success", forecast=forecast)
+    
+    def get_geocode(self, request: ForecastRequestModel) -> GeocodingResponseModel:
+        latitude, longitude = self.client.get_lat_long(request.zipcode)
+        if latitude is None or longitude is None:
+            return GeocodingResponseModel(latitude=0.0, longitude=0.0, status_code=500, message=f"Failed to fetch geocode: {str(e)}")
+        return GeocodingResponseModel(latitude=latitude, longitude=longitude, status_code=200, message="Success")

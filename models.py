@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import List, Dict
 
 class ForecastRequestModel(BaseModel):
-    zipcode: int
+    zipcode: str
     date: str
 
 class ForecastResponseModel(BaseModel):
@@ -29,5 +29,12 @@ class HourlyForecastModel(BaseModel):
     status_code: int
     message: str
     forecast: List[CurrentForecastModel]
+
+
+class GeocodingResponseModel(BaseModel):
+    latitude: float
+    longitude: float
+    status_code: int
+    message: str
 
     

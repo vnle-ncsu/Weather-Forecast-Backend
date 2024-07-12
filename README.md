@@ -16,7 +16,7 @@ Running on Python 3.8.5
 
 -Flask \
 -requests \
--pydantic
+-pydantic \
 -flask CORs
 
 ```bash
@@ -24,6 +24,52 @@ pip install Flask
 pip install requests
 pip install pydantic
 pip install flask-cors
+```
+
+## Makefile :)
+
+### Install packages and dependencies
+
+```bash
+make install
+```
+
+### Clean the environment
+
+```bash
+make clean
+```
+
+### Run the backend
+
+```bash
+make install
+```
+
+Install packages and dependencies
+
+```bash
+make run
+```
+
+### Run test
+
+```bash
+make test
+```
+
+### Run with seeds and runs - seeds and regression testing isn't working but you can still use this command to test performance and functionality
+
+#### Example
+
+```bash
+make test_custom RUNS=50 SEED=12345
+```
+
+### Help
+
+```bash
+make help
 ```
 
 ## Running in Virtual Environment

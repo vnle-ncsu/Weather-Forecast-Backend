@@ -12,8 +12,13 @@ forecast_service = ForecastService()
 
 @app.route('/forecast/single-day', methods=['POST'])
 def get_weather():
+    data = request.get_json()
+    try:
+        request_model = ForecastRequestModel(**data)
+        datetime.strptime(request_model.date, '%Y-%m-%d')  # Date validation
+    except (ValidationError, ValueError) as e:
+        return jsonify({"error": str(e)}), 400
     try: 
-        data = request.get_json()
          #Use Today's date if date isn't given
         if 'date' not in data or not data['date']:
             data['date'] = datetime.now().strftime('%Y-%m-%d')
@@ -63,6 +68,19 @@ def get_hourly_forecast():
     except ValidationError as e:
        return jsonify(e.errors()), 400
     response = forecast_service.get_hourly_forecast(request_model)
+    return jsonify(response.dict()), response.status_code
+
+@app.route('/geocode/<string:zipcode>', methods=['GET'])
+def get_geocode(zipcode):
+    data = {'zipcode': zipcode}
+    if 'date' not in data or not data['date']:
+        data['date'] = datetime.now().strftime('%Y-%m-%d')
+    try:
+        request_model = ForecastRequestModel(**data)
+    except ValidationError as e:
+        return jsonify(e.errors()), 400
+    
+    response = forecast_service.get_geocode(request_model)
     return jsonify(response.dict()), response.status_code
 
 if __name__ == '__main__':
