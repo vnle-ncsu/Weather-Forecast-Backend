@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import Optional
 from typing import List, Dict
 
-class RatingRequestModel(BaseModel):
+class ForeRequestModel(BaseModel):
     zipcode: int
     date: List[str]
     activity: str
@@ -29,6 +29,7 @@ class ForecastResponseModel(BaseModel):
     snow_sum: Optional[float] = None
     status_code: int
     message: str
+    rating: Optional[int] = None
 
 class SevenDayForecastResponseModel(BaseModel):
     status_code: int
@@ -52,5 +53,6 @@ class HourlyForecastModel(BaseModel):
     status_code: int
     message: str
     forecast: List[CurrentForecastModel]
+    ratings: Optional[List[int]] = None
 
     
