@@ -27,13 +27,8 @@ class ForecastService:
         forecast_data = self.client.get_7_day_weather_forecast(latitude, longitude)
         if forecast_data is None:
             return SevenDayForecastResponseModel(status_code=500, message="Weather data req failed", forecast=[])
-        
-        forecast = []
-        for day in forecast_data:
-            forecast.append(ForecastResponseModel(date=day['date'], max_temp=day['max_temp'], min_temp=day['min_temp'], weather=day['weather'], status_code=200, message="Success"))
 
-
-        return SevenDayForecastResponseModel(status_code=200, message="Success", forecast=forecast)
+        return SevenDayForecastResponseModel(status_code=200, message="Success", forecast=forecast_data)
     
     
     def get_current_forecast(self, request: ForecastRequestModel) -> CurrentForecastModel:
@@ -57,9 +52,4 @@ class ForecastService:
         hourly_data = self.client.get_hourly_weather_forecast(latitude, longitude)
         if hourly_data is None:
             return HourlyForecastModel(status_code=500, message="Weather data req failed", forecast=[])
-
-        forecast = []
-        for hour in hourly_data:
-            forecast.append(CurrentForecastModel(temp=hour['temp'], weather=hour['weather'], time=hour['time'], status_code=200, message="Success"))
-
-        return HourlyForecastModel(status_code=200, message="Success", forecast=forecast)
+        return HourlyForecastModel(status_code=200, message="Success", forecast=hourly_data)
