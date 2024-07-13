@@ -2,6 +2,11 @@ from pydantic import BaseModel
 from typing import Optional
 from typing import List, Dict
 
+class RatingRequestModel(BaseModel):
+    zipcode: int
+    date: List[str]
+    activity: str
+
 class ForecastRequestModel(BaseModel):
     zipcode: int
     date: str
