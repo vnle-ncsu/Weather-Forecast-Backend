@@ -29,7 +29,7 @@ class ForecastResponseModel(BaseModel):
     snow_sum: Optional[float] = None
     status_code: int
     message: str
-    rating: Optional[int] = None
+    ratings: Optional[List[int]] = None
 
 class SevenDayForecastResponseModel(BaseModel):
     status_code: int
