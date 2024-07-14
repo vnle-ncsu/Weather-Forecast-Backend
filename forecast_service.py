@@ -52,11 +52,11 @@ class ForecastService:
         hourly_data = self.client.get_hourly_weather_forecast(latitude, longitude)
         if hourly_data is None:
             return HourlyForecastModel(status_code=500, message="Weather data req failed", forecast=[])
-        return HourlyForecastModel(status_code=200, message="Success", forecast=forecast)
+        return HourlyForecastModel(status_code=200, message="Success", forecast=hourly_data)
     
     def get_geocode(self, request: ForecastRequestModel) -> GeocodingResponseModel:
         latitude, longitude = self.client.get_lat_long(request.zipcode)
         if latitude is None or longitude is None:
             return GeocodingResponseModel(latitude=0.0, longitude=0.0, status_code=500, message=f"Failed to fetch geocode: {str(e)}")
         return GeocodingResponseModel(latitude=latitude, longitude=longitude, status_code=200, message="Success")
-        return HourlyForecastModel(status_code=200, message="Success", forecast=hourly_data)
+

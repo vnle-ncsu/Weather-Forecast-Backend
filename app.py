@@ -12,6 +12,12 @@ forecast_service = ForecastService()
 
 @app.route('/forecast/single-day', methods=['POST'])
 def get_weather():
+    try:
+        data = request.get_json()
+        request_model = ForecastRequestModel(**data)
+        datetime.strptime(request_model.date, '%Y-%m-%d')  # Date validation
+    except (ValidationError, ValueError) as e:
+        return jsonify({"error": str(e)}), 400
     try: 
         data = request.get_json()
          #Use Today's date if date isn't given
