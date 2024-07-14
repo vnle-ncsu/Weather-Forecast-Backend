@@ -12,11 +12,11 @@ class ForecastService:
         if latitude is None or longitude is None:
             return ForecastResponseModel(date=request.date, max_temp=0.0, min_temp=0.0, weather="", status_code=400, message="Invalid ZIP code")
         
-        forecast = self.client.get_weather_forecast(latitude, longitude, request.date)
+        forecast = self.client.get_daily_weather_forecast(latitude, longitude, request.date)
         if forecast is None:
             return ForecastResponseModel(date=request.date, max_temp=0.0, min_temp=0.0, weather="", status_code=500, message="Weather data req failed")
 
-        return ForecastResponseModel(date=request.date, max_temp=forecast['max_temp'], min_temp=forecast['min_temp'], weather=forecast['weather'], status_code=200, message="Success")
+        return forecast
     
 
     def get_7_day_forecast(self, request: ForecastRequestModel) -> SevenDayForecastResponseModel:
@@ -27,13 +27,8 @@ class ForecastService:
         forecast_data = self.client.get_7_day_weather_forecast(latitude, longitude)
         if forecast_data is None:
             return SevenDayForecastResponseModel(status_code=500, message="Weather data req failed", forecast=[])
-        
-        forecast = []
-        for day in forecast_data:
-            forecast.append(ForecastResponseModel(date=day['date'], max_temp=day['max_temp'], min_temp=day['min_temp'], weather=day['weather'], status_code=200, message="Success"))
 
-
-        return SevenDayForecastResponseModel(status_code=200, message="Success", forecast=forecast)
+        return SevenDayForecastResponseModel(status_code=200, message="Success", forecast=forecast_data)
     
     
     def get_current_forecast(self, request: ForecastRequestModel) -> CurrentForecastModel:
@@ -57,11 +52,6 @@ class ForecastService:
         hourly_data = self.client.get_hourly_weather_forecast(latitude, longitude)
         if hourly_data is None:
             return HourlyForecastModel(status_code=500, message="Weather data req failed", forecast=[])
-
-        forecast = []
-        for hour in hourly_data:
-            forecast.append(CurrentForecastModel(temp=hour['temp'], weather=hour['weather'], time=hour['time'], status_code=200, message="Success"))
-
         return HourlyForecastModel(status_code=200, message="Success", forecast=forecast)
     
     def get_geocode(self, request: ForecastRequestModel) -> GeocodingResponseModel:
@@ -69,3 +59,4 @@ class ForecastService:
         if latitude is None or longitude is None:
             return GeocodingResponseModel(latitude=0.0, longitude=0.0, status_code=500, message=f"Failed to fetch geocode: {str(e)}")
         return GeocodingResponseModel(latitude=latitude, longitude=longitude, status_code=200, message="Success")
+        return HourlyForecastModel(status_code=200, message="Success", forecast=hourly_data)
