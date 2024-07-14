@@ -38,7 +38,7 @@ class SevenDayForecastResponseModel(BaseModel):
 
 class CurrentForecastModel(BaseModel):
     temp: float
-    apparent_temp: float
+    apparent_temp: Optional[float] = None
     precip_prob: Optional[float] = None
     rain: Optional[float] = None
     snow: Optional[float] = None

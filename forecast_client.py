@@ -22,20 +22,39 @@ class ForecastClient:
             return latitude, longitude
         return None, None
 
-    def get_weather_forecast(self, latitude: float, longitude: float, date: str):
+    def get_daily_weather_forecast(self, latitude: float, longitude: float, date: str):
         #date format xxxx-xx-xx, year-month-day
         #https://open-meteo.com/en/docs
         #under "Daily Parameter Definition", requesting max and min daily air temp, weather code
         #this is just for a single day but you can get api response of 7 day forecast as well
         #url = f"{self.base_url}?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&days=7&timezone={self.timezone}"
-        url = f"{self.base_url}?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max,temperature_2m_min,weathercode&start_date={date}&end_date={date}&temperature_unit=fahrenheit&timezone={self.timezone}"
+        url = f"{self.base_url}?latitude={latitude}&longitude={longitude}&daily=temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,weathercode,uv_index_max,sunrise,wind_speed_10m_max,wind_direction_10m_dominant,sunset,precipitation_sum,precipitation_probability_max,rain_sum,showers_sum,snowfall_sum&start_date={date}&end_date={date}&temperature_unit=fahrenheit&timezone={self.timezone}"
         print(url)
         response = requests.get(url)
         if response.status_code == 200:
             weather_data = response.json()
             weather_code = weather_data['daily']['weathercode'][0]
-            weather_description = WEATHER_CODES.get(weather_code, "Unknown")         
-            return {"max_temp": weather_data['daily']['temperature_2m_max'][0], "min_temp": weather_data['daily']['temperature_2m_min'][0],"weather": weather_description}
+            weather_description = WEATHER_CODES.get(weather_code, "Unknown")
+            day_forecast = ForecastResponseModel(
+                date = weather_data['daily']['time'] [0],
+                max_temp = weather_data['daily']['temperature_2m_max'] [0],
+                min_temp = weather_data['daily']['temperature_2m_min'] [0],
+                max_apparent_temp=weather_data['daily']['apparent_temperature_max'] [0],
+                min_apparent_temp=weather_data['daily']['apparent_temperature_min'] [0],
+                uv_index=weather_data['daily']['uv_index_max'] [0],
+                max_wind_speed=weather_data['daily']['wind_speed_10m_max'] [0],
+                dominant_wind_direction=weather_data['daily']['wind_direction_10m_dominant'] [0],
+                weather = weather_description,
+                sunrise =weather_data['daily']['sunrise'] [0],
+                sunset = weather_data['daily']['sunset'] [0],
+                precip_sum = weather_data['daily']['precipitation_sum'] [0],
+                precip_prob = weather_data['daily']['precipitation_probability_max'] [0],
+                rain_sum = (weather_data['daily']['rain_sum'] + weather_data['daily']['showers_sum']) [0],
+                snowfall_sum = weather_data['daily']['snowfall_sum'] [0],
+                message = 'success',
+                status_code = 200
+            )
+            return day_forecast
         return None
     
     def get_7_day_weather_forecast(self, latitude: float, longitude: float):
