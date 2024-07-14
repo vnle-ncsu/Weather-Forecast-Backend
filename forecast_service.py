@@ -12,11 +12,11 @@ class ForecastService:
         if latitude is None or longitude is None:
             return ForecastResponseModel(date=request.date, max_temp=0.0, min_temp=0.0, weather="", status_code=400, message="Invalid ZIP code")
         
-        forecast = self.client.get_weather_forecast(latitude, longitude, request.date)
+        forecast = self.client.get_daily_weather_forecast(latitude, longitude, request.date)
         if forecast is None:
             return ForecastResponseModel(date=request.date, max_temp=0.0, min_temp=0.0, weather="", status_code=500, message="Weather data req failed")
 
-        return ForecastResponseModel(date=request.date, max_temp=forecast['max_temp'], min_temp=forecast['min_temp'], weather=forecast['weather'], status_code=200, message="Success")
+        return forecast
     
 
     def get_7_day_forecast(self, request: ForecastRequestModel) -> SevenDayForecastResponseModel:
