@@ -53,3 +53,5 @@ class ForecastService:
         if hourly_data is None:
             return HourlyForecastModel(status_code=500, message="Weather data req failed", forecast=[])
         return HourlyForecastModel(status_code=200, message="Success", forecast=hourly_data)
+    
+

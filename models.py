@@ -8,7 +8,7 @@ class ForeRequestModel(BaseModel):
     activity: str
 
 class ForecastRequestModel(BaseModel):
-    zipcode: int
+    zipcode: str
     date: str
 
 class ForecastResponseModel(BaseModel):
@@ -54,5 +54,7 @@ class HourlyForecastModel(BaseModel):
     message: str
     forecast: List[CurrentForecastModel]
     ratings: Optional[List[int]] = None
+
+
 
     
