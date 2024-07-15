@@ -53,12 +53,8 @@ class HourlyForecastModel(BaseModel):
     status_code: int
     message: str
     forecast: List[CurrentForecastModel]
+    ratings: Optional[List[int]] = None
 
 
-class GeocodingResponseModel(BaseModel):
-    latitude: float
-    longitude: float
-    status_code: int
-    message: str
 
     

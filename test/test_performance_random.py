@@ -110,18 +110,6 @@ class TestWeatherForecastAPIPerformance(unittest.TestCase):
             self.assertLess(duration, 2, f"Performance test failed: {duration} seconds for ZIP code {zipcode}")
             self.log_result('/forecast/hourly', zipcode, None, duration, response.status_code)
 
-    def test_get_geocode_performance(self):
-        for _ in range(self.NUM_RUNS):
-            zipcode = self.generate_random_zip_code()
-            url = f"{self.BASE_URL}/geocode/{zipcode}"
-            start_time = time.time()
-            response = requests.get(url)
-            end_time = time.time()
-            duration = end_time - start_time
-
-            self.assertEqual(response.status_code, 200, f"Invalid response for ZIP code {zipcode}")
-            self.assertLess(duration, 2, f"Performance test failed: {duration} seconds for ZIP code {zipcode}")
-            self.log_result('/geocode', zipcode, None, duration, response.status_code)
 
 
 ## Functionality test, invalid inputs
