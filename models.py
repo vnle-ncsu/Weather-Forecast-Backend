@@ -1,7 +1,6 @@
-from flask import json
 from pydantic import BaseModel
 from typing import Optional
-from typing import List, Dict
+from typing import List
 from typing import Literal
 
 class ForeRequestModel(BaseModel):
@@ -68,7 +67,7 @@ class HourlyForecastModel(BaseModel):
     ratings: Optional[List[int]] = None
 
 class RatingResponseModel(BaseModel):
-    ratings: List[int]
+    ratings: List
     status_code: int
     message: str
 
