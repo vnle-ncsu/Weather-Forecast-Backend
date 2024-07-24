@@ -63,7 +63,7 @@ class ForecastService:
         interpreter.allocate_tensors()
         return interpreter
 
-    def get_activity_suitability(self, request: RatingRequestModel) -> RatingResponseModel:
+    def get_activity_suitability(self, request: RatingRequestModel) -> int:
         input_details = self.activity_model.get_input_details()
         output_details = self.activity_model.get_output_details()
 
@@ -83,4 +83,4 @@ class ForecastService:
         y_pred = self.activity_model.get_tensor(output_details[0]['index'])[0]
         y_pred_rounded = np.clip(np.round(y_pred), 1, 5)
 
-        return RatingResponseModel(rating=y_pred_rounded,status_code=200,message="Success")
+        return int(y_pred_rounded)
