@@ -1,11 +1,19 @@
 from pydantic import BaseModel
 from typing import Optional
 from typing import List, Dict
+from typing import Literal
 
 class ForeRequestModel(BaseModel):
     zipcode: int
     date: List[str]
     activity: str
+
+class RatingRequestModel(BaseModel):
+    activity: Literal['golf', 'hiking', 'running']
+    temp_max: float
+    precipitation: float
+    temp_min: float
+    weather_code: int
 
 class ForecastRequestModel(BaseModel):
     zipcode: str
@@ -55,6 +63,10 @@ class HourlyForecastModel(BaseModel):
     forecast: List[CurrentForecastModel]
     ratings: Optional[List[int]] = None
 
+class RatingResponseModel(BaseModel):
+    rating: float
+    status_code: int
+    message: str
 
 
     
