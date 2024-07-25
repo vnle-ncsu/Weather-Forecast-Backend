@@ -1,10 +1,14 @@
 from forecast_client import ForecastClient
-from models import ForecastRequestModel, ForecastResponseModel, SevenDayForecastResponseModel, CurrentForecastModel, HourlyForecastModel
+from models import ForecastRequestModel, ForecastResponseModel, SevenDayForecastResponseModel, CurrentForecastModel, HourlyForecastModel, RatingRequestModel, RatingResponseModel
+import tensorflow as tf
+import numpy as np
 
 
 class ForecastService:
     def __init__(self):
         self.client = ForecastClient()
+        self.activity_model = self.load_activity_model()
+        #self.activity_mapping = {'golf': 0, 'hiking': 1, 'running': 2}
 
     def get_forecast(self, request: ForecastRequestModel) -> ForecastResponseModel:
         #geocoding service
@@ -54,4 +58,29 @@ class ForecastService:
             return HourlyForecastModel(status_code=500, message="Weather data req failed", forecast=[])
         return HourlyForecastModel(status_code=200, message="Success", forecast=hourly_data)
     
+    def load_activity_model(self):
+        interpreter = tf.lite.Interpreter(model_path="activity_suitability_model.tflite")
+        interpreter.allocate_tensors()
+        return interpreter
 
+    def get_activity_suitability(self, request: RatingRequestModel) -> int:
+        input_details = self.activity_model.get_input_details()
+        output_details = self.activity_model.get_output_details()
+
+        #print("Input details:", input_details)
+
+        activity_encoded = np.array([request.activity.encode('utf-8')], dtype=np.string_)
+
+        numerical_inputs = np.array([[request.temp_max, request.precipitation, request.temp_min, request.weather_code, 0.0]], dtype=np.float32)
+
+        for input_detail in input_details:
+            if input_detail['dtype'] == np.string_:
+                self.activity_model.set_tensor(input_detail['index'], activity_encoded)
+            elif input_detail['dtype'] == np.float32:
+                self.activity_model.set_tensor(input_detail['index'], numerical_inputs)
+
+        self.activity_model.invoke()
+        y_pred = self.activity_model.get_tensor(output_details[0]['index'])[0]
+        y_pred_rounded = np.clip(np.round(y_pred), 1, 5)
+
+        return int(y_pred_rounded)

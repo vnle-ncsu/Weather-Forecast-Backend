@@ -10,10 +10,11 @@ git clone git@github.com:vnle-ncsu/Weather-Forecast-Backend.git
 
 ## Python Version
 
-Running on Python 3.8.5
+Running on Python 3.8.5 -> 3.8.10
 
 ## Packages you'll need
 
+-Just use make install or look in the requirement.txt (these specefic versions because there's a lot of compatibility issues) \n
 -Flask \
 -requests \
 -pydantic \

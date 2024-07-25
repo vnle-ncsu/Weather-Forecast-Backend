@@ -1,7 +1,8 @@
+from typing import List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from forecast_service import ForecastService
-from models import ForecastRequestModel
+from models import ForecastRequestModel, RatingRequestModel, RatingRequestWrapper
 from datetime import datetime
 from pydantic import ValidationError
 
@@ -70,6 +71,17 @@ def get_hourly_forecast():
     response = forecast_service.get_hourly_forecast(request_model)
     return jsonify(response.dict()), response.status_code
 
+@app.route('/activity-suitability', methods=['POST'])
+def get_activity_suitability():
+    try:
+        data = request.get_json()
+        request_models = RatingRequestWrapper(**data)
+    except ValidationError as e:
+        return jsonify(e.errors()), 400
+    result = []
+    for individualRequest in request_models.requests:
+        result.append(forecast_service.get_activity_suitability(individualRequest))
+    return jsonify(result), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
