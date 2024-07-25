@@ -78,7 +78,7 @@ class ForecastService:
 
         #activity_encoded = np.array([request.activity.encode('utf-8')], dtype=np.string_)
         print(type(input_data_activity))
-        numerical_inputs = np.array([[input_data_activity, request.temp_max, request.precipitation, request.temp_min, request.weather_code]], dtype=np.float32)
+        numerical_inputs = np.array([[input_data_activity, request.temp_max, request.temp_min, request.precipitation, request.prob_precip, request.weather_code]], dtype=np.float32)
         #for i in numerical_inputs:
         #    print(type(i))
         input_scaled = scaler.transform(numerical_inputs)

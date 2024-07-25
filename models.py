@@ -11,8 +11,9 @@ class ForeRequestModel(BaseModel):
 class RatingRequestModel(BaseModel):
     activity: Literal['golf', 'hiking', 'running']
     temp_max: float
-    precipitation: float
     temp_min: float
+    precipitation: float
+    prob_precip: float
     weather_code: int
 
 class RatingRequestWrapper(BaseModel):
