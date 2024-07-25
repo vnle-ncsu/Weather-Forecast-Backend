@@ -21,6 +21,7 @@ class RatingRequestWrapper(BaseModel):
 class ForecastRequestModel(BaseModel):
     zipcode: str
     date: str
+    
 
 class ForecastResponseModel(BaseModel):
     date: str
